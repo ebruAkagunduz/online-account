@@ -6,18 +6,15 @@ GNetworkMonitor *monitor;
 gboolean network_available;
 
 void increase(GNetworkMonitor *monitor,gboolean available,gpointer user_data){
-	
-	if(netw_status()){
-        	gtk_widget_set_sensitive(button,TRUE);}
-	else{ gtk_widget_set_sensitive(button,FALSE);}
-	}
-
+	netw_status();
+}
 int netw_status(){
 	monitor = g_network_monitor_get_default ();
 	network_available = g_network_monitor_get_network_available (monitor);
-	return network_available;
+        if(network_available){
+                gtk_widget_set_sensitive(button,TRUE);}
+        else{ gtk_widget_set_sensitive(button,FALSE);}      
 }
-
 
 int main (int argc,char *argv[]){
 
@@ -39,10 +36,7 @@ int main (int argc,char *argv[]){
   gtk_widget_set_size_request(button, 100, 35);
   gtk_fixed_put(GTK_FIXED(frame), button, 150, 150);
  
-  if(netw_status()){
-	  gtk_widget_set_sensitive(button,TRUE);} 
-  else{
-	  gtk_widget_set_sensitive(button,FALSE);}
+  netw_status();
 
   g_signal_connect(monitor,"network-changed",G_CALLBACK(increase),window);
 
