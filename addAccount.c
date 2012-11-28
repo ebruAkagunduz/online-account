@@ -5,7 +5,7 @@ GtkWidget *button;
 GNetworkMonitor *monitor;
 gboolean network_available;
 
-void increase(GNetworkMonitor *monitor,gboolean available,gpointer user_data){
+void netw_changed(GNetworkMonitor *monitor,gboolean available,gpointer user_data){
 	netw_status();
 }
 int netw_status(){
@@ -38,7 +38,7 @@ int main (int argc,char *argv[]){
  
   netw_status();
 
-  g_signal_connect(monitor,"network-changed",G_CALLBACK(increase),window);
+  g_signal_connect(monitor,"network-changed",G_CALLBACK(netw_changed),window);
 
   gtk_widget_show_all (window);
   
