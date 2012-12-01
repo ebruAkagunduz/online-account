@@ -1,25 +1,21 @@
 #include <gtk/gtk.h>
 #include <gio/gio.h>
 
-GtkWidget *button;
-GNetworkMonitor *monitor;
-gboolean network_available;
 
-void netw_changed(GNetworkMonitor *monitor,gboolean available,gpointer user_data){
-	netw_status();
-}
-int netw_status(){
-	monitor = g_network_monitor_get_default ();
-	network_available = g_network_monitor_get_network_available (monitor);
-        if(network_available){
+void netw_changed(GNetworkMonitor *monitor,gboolean available,GtkWidget *button){
+      
+        if( g_network_monitor_get_network_available (monitor)){
                 gtk_widget_set_sensitive(button,TRUE);}
-        else{ gtk_widget_set_sensitive(button,FALSE);}      
-}
+        else{ gtk_widget_set_sensitive(button,FALSE);} 	
+    }
 
 int main (int argc,char *argv[]){
 
   GtkWidget *window;
   GtkWidget *frame;
+  GtkWidget *button;
+  GNetworkMonitor *monitor;
+  gboolean network_available;
 
   gtk_init (&argc, &argv);
  
@@ -36,9 +32,9 @@ int main (int argc,char *argv[]){
   gtk_widget_set_size_request(button, 100, 35);
   gtk_fixed_put(GTK_FIXED(frame), button, 150, 150);
  
-  netw_status();
-
-  g_signal_connect(monitor,"network-changed",G_CALLBACK(netw_changed),window);
+  monitor = g_network_monitor_get_default ();
+  netw_changed(monitor,network_available,button);
+  g_signal_connect(monitor,"network-changed",G_CALLBACK(netw_changed),button);
 
   gtk_widget_show_all (window);
   
