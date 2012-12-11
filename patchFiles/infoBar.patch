@@ -1,0 +1,55 @@
+--- orjinal.c	2012-12-09 12:11:58.128342546 +0200
++++ hacked.c	2012-12-09 12:13:20.608534756 +0200
+@@ -228,7 +228,7 @@
+   gtk_tree_view_column_set_attributes (column,
+                                        renderer,
+                                        "markup", GOA_PANEL_ACCOUNTS_MODEL_COLUMN_MARKUP,
+-					NULL);                        
++                                       NULL);
+   renderer = gtk_cell_renderer_pixbuf_new ();
+   gtk_tree_view_column_pack_end (column, renderer, FALSE);
+   g_object_set (G_OBJECT (renderer),
+@@ -238,12 +238,12 @@
+                                        renderer,
+                                        "visible", GOA_PANEL_ACCOUNTS_MODEL_COLUMN_ATTENTION_NEEDED,
+                                        NULL);
++
+   /* Select the first row, if any */
+   if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (panel->accounts_model),
+                                      &iter))
+     gtk_tree_selection_select_iter (gtk_tree_view_get_selection (GTK_TREE_VIEW (panel->accounts_treeview)),
+                                     &iter);
+-
+  out:
+   w = GTK_WIDGET (gtk_builder_get_object (panel->builder, "goa-top-widget"));
+   gtk_widget_reparent (w, GTK_WIDGET (panel));
+@@ -394,6 +394,8 @@
+   GtkWidget *label;
+   GoaProvider *provider;
+   GoaAccount *account;
++  GtkWidget *h_Box;
++  GtkWidget *image_;
+   const gchar *provider_type;
+ 
+   provider = NULL;
+@@ -418,12 +420,17 @@
+   /* And in with the new */
+   if (goa_account_get_attention_needed (account))
+     {
++      h_Box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
++      image_ = gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING,2);
+       bar = gtk_info_bar_new ();
+-      label = gtk_label_new (_("Expired credentials. Please log in again."));
++      gtk_info_bar_set_message_type (bar, GTK_MESSAGE_OTHER);
++      label = gtk_label_new (_("Credentials have expired. Sign In to enable this account."));
+       gtk_container_add (GTK_CONTAINER (gtk_info_bar_get_content_area (GTK_INFO_BAR (bar))), label);
+       if (provider != NULL)
+-        gtk_info_bar_add_button (GTK_INFO_BAR (bar), _("_Log In"), GTK_RESPONSE_OK);
+-      gtk_box_pack_start (GTK_BOX (panel->accounts_vbox), bar, FALSE, TRUE, 0);
++        gtk_info_bar_add_button (GTK_INFO_BAR (bar), _("_Sign In"), GTK_RESPONSE_OK);
++        gtk_box_pack_start (GTK_BOX (h_Box), image_, FALSE, FALSE, 0);
++        gtk_box_pack_start (GTK_BOX (h_Box), bar, FALSE, FALSE, 0);
++      gtk_box_pack_end (GTK_BOX (panel->accounts_vbox), h_Box, FALSE, TRUE, 0);
+       g_signal_connect (bar, "response", G_CALLBACK (on_info_bar_response), panel);
+     }
+ 
