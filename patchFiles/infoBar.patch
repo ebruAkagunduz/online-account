@@ -1,5 +1,4 @@
---- orjinal.c	2012-12-09 12:11:58.128342546 +0200
-+++ hacked.c	2012-12-09 12:13:20.608534756 +0200
+
 @@ -228,7 +228,7 @@
    gtk_tree_view_column_set_attributes (column,
                                         renderer,

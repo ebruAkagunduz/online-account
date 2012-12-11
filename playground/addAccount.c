@@ -30,6 +30,7 @@ int main (int argc,char *argv[]){
                           G_BINDING_SYNC_CREATE);
   gtk_widget_show_all (window);
   
+  printf("test1");
   gtk_main ();
 
   return 0;
