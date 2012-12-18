@@ -1,0 +1,29 @@
+From 492fe6db3fbb6257807ac62c0da6feccd43b5ed8 Mon Sep 17 00:00:00 2001
+From: Ebru Akagunduz <ebru.akagunduz@gmail.com>
+Date: Thu, 13 Dec 2012 21:43:57 +0200
+Subject: [PATCH 2/2] changed attention icon of account
+
+---
+ panels/online-accounts/cc-online-accounts-panel.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/panels/online-accounts/cc-online-accounts-panel.c b/panels/online-accounts/cc-online-accounts-panel.c
+index 80e9df7..432dfa8 100644
+--- a/panels/online-accounts/cc-online-accounts-panel.c
++++ b/panels/online-accounts/cc-online-accounts-panel.c
+@@ -231,10 +231,10 @@ goa_panel_init (GoaPanel *panel)
+                                        "markup", GOA_PANEL_ACCOUNTS_MODEL_COLUMN_MARKUP,
+                                        NULL);
+ 
+-  renderer = gtk_cell_renderer_pixbuf_new ();
++  renderer = gtk_cell_renderer_pixbuf_new (); 
+   gtk_tree_view_column_pack_end (column, renderer, FALSE);
+   g_object_set (G_OBJECT (renderer),
+-                "icon-name", "dialog-error-symbolic",
++                "stock-id", GTK_STOCK_CAPS_LOCK_WARNING,
+                 NULL);
+   gtk_tree_view_column_set_attributes (column,
+                                        renderer,
+-- 
+1.8.0.1
+
